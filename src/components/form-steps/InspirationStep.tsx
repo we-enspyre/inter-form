@@ -9,31 +9,56 @@ interface InspirationStepProps {
 
 const templates = [
   {
-    id: 'modern-business',
-    name: 'Modern Business',
-    description: 'Clean and professional layout',
-    preview: 'https://via.placeholder.com/300x200/3B82F6/ffffff?text=Modern+Business'
+    id: 'hestia',
+    name: 'Hestia',
+    preview: 'https://demo.themeisle.com/hestia/'
   },
   {
-    id: 'creative-portfolio',
-    name: 'Creative Portfolio',
-    description: 'Artistic and visually striking',
-    preview: 'https://via.placeholder.com/300x200/8B5CF6/ffffff?text=Creative+Portfolio'
+    id: 'roblog',
+    name: 'Roblog',
+    preview: 'https://roblogdemo.wordpress.com/?demo'
   },
   {
-    id: 'minimal-elegant',
-    name: 'Minimal Elegant',
-    description: 'Simple and sophisticated',
-    preview: 'https://via.placeholder.com/300x200/10B981/ffffff?text=Minimal+Elegant'
+    id: 'pizza-template',
+    name: 'Pizzaria Template',
+    preview: 'https://we-enspyre.github.io/PizzaTemplate/'
   },
   {
-    id: 'bold-dynamic',
-    name: 'Bold Dynamic',
-    description: 'Eye-catching and energetic',
-    preview: 'https://via.placeholder.com/300x200/F59E0B/ffffff?text=Bold+Dynamic'
+    id: 'astra',
+    name: 'Astra',
+    preview: 'https://wp-themes.com/astra/'
+  },
+  {
+    id: 'sham-united',
+    name: 'Sham United',
+    preview: 'https://www.sham-united.com/'
+  },
+  {
+    id: 'bt-template',
+    name: 'BT Template',
+    preview: 'https://we-enspyre.github.io/BT/'
+  },
+  {
+    id: 'education-formula',
+    name: 'Education Formula',
+    preview: 'https://wp-themes.com/education-formula/'
+  },
+  {
+    id: 'kiddiemart',
+    name: 'Kiddiemart',
+    preview: 'https://fse.catchthemes.com/kiddiemart/'
+  },
+  {
+    id: 'fotograf',
+    name: 'Fotograf',
+    preview: 'https://we-enspyre.github.io/fotograf/'
+  },
+  {
+    id: 'sydney',
+    name: 'Sydney',
+    preview: 'https://athemes.com/theme/sydney/'
   }
 ];
-
 export const InspirationStep: React.FC<InspirationStepProps> = ({ formData, updateFormData }) => {
   const handleTemplateSelect = (templateId: string) => {
     const selectedTemplate = templates.find(t => t.id === templateId);
@@ -50,7 +75,7 @@ export const InspirationStep: React.FC<InspirationStepProps> = ({ formData, upda
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {templates.map((template) => {
           const isSelected = formData.inspiration === template.name;
-          
+
           return (
             <Card
               key={template.id}
@@ -63,17 +88,27 @@ export const InspirationStep: React.FC<InspirationStepProps> = ({ formData, upda
             >
               <CardContent className="p-4">
                 <div className="space-y-4">
-                  <div className="aspect-video bg-muted rounded-lg overflow-hidden">
-                    <img 
-                      src={template.preview} 
-                      alt={template.name}
-                      className="w-full h-full object-cover"
-                    />
+                  <div className="aspect-video rounded-lg overflow-hidden border border-gray-200 relative">
+                    <iframe
+                      sandbox="allow-scripts allow-same-origin"
+                      referrerPolicy="no-referrer"
+                      src={template.preview}
+                      title={template.name}
+                      className="w-full h-full top-0 left-0 origin-top-left"
+                      style={{
+                          width: '1280px',
+                          height: '720px',
+                          transform: 'scale(0.3)',
+                          border: 'none'
+                        }}  
+                      frameBorder="0"
+                      loading="lazy"
+                    ></iframe>
                   </div>
-                  
+
                   <div>
                     <h4 className="font-semibold text-lg">{template.name}</h4>
-                    <p className="text-muted-foreground text-sm">{template.description}</p>
+                    <p className="text-muted-foreground text-sm"> Live preview</p>
                   </div>
                 </div>
               </CardContent>
