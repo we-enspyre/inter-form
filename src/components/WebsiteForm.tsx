@@ -31,7 +31,7 @@ export interface FormData {
 }
 
 const steps = [
-  'Choose Plan',
+  // 'Choose Plan',
   'Pages',
   'Theme',
   'Content & Logo',
@@ -72,13 +72,12 @@ export const WebsiteForm = () => {
 
   const canProceed = () => {
     switch (currentStep) {
-      case 0: return formData.plan !== '';
-      case 1: return formData.pages.count > 0;
-      case 2: return formData.theme !== '';
-      case 3: return formData.content.title.trim() !== '';
-      case 4: return formData.inspiration !== '';
-      case 5: return true; // Extras are optional
-      case 6: return formData.contactEmail !== '' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.contactEmail);
+      case 0: return formData.pages.count > 0;
+      case 1: return formData.theme !== '';
+      case 2: return formData.content.title.trim() !== '';
+      case 3: return formData.inspiration !== '';
+      case 4: return true; // Extras are optional
+      case 5: return formData.contactEmail !== '' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.contactEmail);
       default: return true;
     }
   };
@@ -99,14 +98,13 @@ export const WebsiteForm = () => {
 
   const renderStep = () => {
     switch (currentStep) {
-      case 0: return <PlanStep formData={formData} updateFormData={updateFormData} />;
-      case 1: return <PagesStep formData={formData} updateFormData={updateFormData} />;
-      case 2: return <ThemeStep formData={formData} updateFormData={updateFormData} />;
-      case 3: return <ContentStep formData={formData} updateFormData={updateFormData} />;
-      case 4: return <InspirationStep formData={formData} updateFormData={updateFormData} />;
-      case 5: return <ExtrasStep formData={formData} updateFormData={updateFormData} />;
-      case 6: return <ContactStep formData={formData} updateFormData={updateFormData} />;
-      case 7: return <ReviewStep formData={formData} onSubmit={handleSubmit} />;
+      case 0: return <PagesStep formData={formData} updateFormData={updateFormData} />;
+      case 1: return <ThemeStep formData={formData} updateFormData={updateFormData} />;
+      case 2: return <ContentStep formData={formData} updateFormData={updateFormData} />;
+      case 3: return <InspirationStep formData={formData} updateFormData={updateFormData} />;
+      case 4: return <ExtrasStep formData={formData} updateFormData={updateFormData} />;
+      case 5: return <ContactStep formData={formData} updateFormData={updateFormData} />;
+      case 6: return <ReviewStep formData={formData} onSubmit={handleSubmit} />;
       default: return null;
     }
   };
