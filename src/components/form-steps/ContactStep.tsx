@@ -59,9 +59,8 @@ export const ContactStep: React.FC<ContactStepProps> = ({ formData, updateFormDa
           <div className="bg-muted/50 p-4 rounded-lg">
             <h4 className="font-medium mb-2">What happens next?</h4>
             <ul className="text-sm text-muted-foreground space-y-1">
-              <li>• You'll receive a confirmation email</li>
               <li>• Our team will review your requirements</li>
-              <li>• We'll contact you within 24 hours</li>
+              <li>• We'll contact you within 72 hours</li>
               <li>• Project timeline and next steps will be shared</li>
             </ul>
           </div>

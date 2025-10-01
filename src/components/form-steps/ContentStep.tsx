@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { FormData } from '../WebsiteForm';
-import { Upload, Palette, X } from 'lucide-react';
+import { Upload, Palette, X, Check } from 'lucide-react';
 
 interface ContentStepProps {
   formData: FormData;
@@ -13,6 +13,9 @@ interface ContentStepProps {
 }
 
 export const ContentStep: React.FC<ContentStepProps> = ({ formData, updateFormData }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadError, setUploadError] = React.useState<string>('');
+
   const handleContentChange = (field: 'title' | 'description', value: string) => {
     updateFormData({
       content: {
@@ -24,6 +27,45 @@ export const ContentStep: React.FC<ContentStepProps> = ({ formData, updateFormDa
 
   const handleLogoOption = (option: string) => {
     updateFormData({ logo: option });
+    if (option !== 'upload') {
+      updateFormData({ logoFile: null });
+      setUploadError('');
+    }
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    setUploadError('');
+
+    if (!file) return;
+
+    const validTypes = ['image/png', 'image/svg+xml'];
+    if (!validTypes.includes(file.type)) {
+      setUploadError('Please upload only PNG or SVG files');
+      event.target.value = '';
+      return;
+    }
+
+    const maxSize = 5 * 1024 * 1024;
+    if (file.size > maxSize) {
+      setUploadError('File size must be less than 5MB');
+      event.target.value = '';
+      return;
+    }
+
+    updateFormData({ logoFile: file });
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleRemoveFile = () => {
+    updateFormData({ logoFile: null });
+    setUploadError('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   return (
@@ -34,7 +76,6 @@ export const ContentStep: React.FC<ContentStepProps> = ({ formData, updateFormDa
       </div>
 
       <div className="max-w-2xl mx-auto space-y-6">
-        {/* Website Title */}
         <div>
           <Label htmlFor="title" className="text-base font-medium">
             Website Title *
@@ -48,7 +89,6 @@ export const ContentStep: React.FC<ContentStepProps> = ({ formData, updateFormDa
           />
         </div>
 
-        {/* Short Description */}
         <div>
           <Label htmlFor="description" className="text-base font-medium">
             Short Description
@@ -63,7 +103,6 @@ export const ContentStep: React.FC<ContentStepProps> = ({ formData, updateFormDa
           />
         </div>
 
-        {/* Logo Options */}
         <div>
           <Label className="text-base font-medium mb-4 block">Logo Options</Label>
           
@@ -109,8 +148,65 @@ export const ContentStep: React.FC<ContentStepProps> = ({ formData, updateFormDa
           </div>
 
           {formData.logo === 'upload' && (
-            <div className="mt-4 p-4 border-2 border-dashed border-muted rounded-lg text-center">
-              <p className="text-muted-foreground">Logo upload functionality will be available after form setup</p>
+            <div className="mt-4">
+              <Label htmlFor="logo-upload" className="sr-only">
+                Upload logo file (PNG or SVG, max 5MB)
+              </Label>
+              <input
+                ref={fileInputRef}
+                id="logo-upload"
+                type="file"
+                accept=".png,.svg,image/png,image/svg+xml"
+                onChange={handleFileSelect}
+                className="hidden"
+                aria-label="Upload logo file (PNG or SVG, max 5MB)"
+              />
+              
+              {!formData.logoFile ? (
+                <div 
+                  className="p-8 border-2 border-dashed border-muted rounded-lg text-center cursor-pointer hover:border-primary transition-colors"
+                  onClick={handleUploadClick}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleUploadClick();
+                    }
+                  }}
+                  aria-label="Click to upload logo file"
+                >
+                  <Upload className="h-12 w-12 mx-auto mb-3 text-muted-foreground" />
+                  <p className="font-medium mb-1">Click to upload logo</p>
+                  <p className="text-sm text-muted-foreground">PNG or SVG (max 5MB)</p>
+                </div>
+              ) : (
+                <div className="p-4 border-2 border-primary rounded-lg bg-primary/5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Check className="h-5 w-5 text-primary" />
+                      <div>
+                        <p className="font-medium">{formData.logoFile.name}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {(formData.logoFile.size / 1024).toFixed(2)} KB
+                        </p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleRemoveFile}
+                      aria-label="Remove uploaded logo"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {uploadError && (
+                <p className="mt-2 text-sm text-red-500" role="alert">{uploadError}</p>
+              )}
             </div>
           )}
 

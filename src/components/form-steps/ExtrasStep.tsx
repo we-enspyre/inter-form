@@ -10,7 +10,11 @@ import {
   MessageCircle, 
   BarChart, 
   Calendar,
-  ShoppingCart
+  ShoppingCart,
+  Bot,
+  PenTool,
+  Languages,
+  CreditCard
 } from 'lucide-react';
 
 interface ExtrasStepProps {
@@ -24,86 +28,88 @@ const baseExtras = [
     name: 'SEO Optimization',
     description: 'Improve search engine visibility',
     icon: Search,
-    price: '$99'
   },
   {
     id: 'hosting',
     name: 'Hosting',
     description: 'Fast and reliable web hosting',
     icon: Server,
-    price: '$15/month'
   },
   {
     id: 'domain',
     name: 'Domain Name',
     description: 'Custom domain registration',
     icon: Globe,
-    price: '$15/year'
   },
   {
     id: 'email',
     name: 'Professional Email',
     description: 'Professional email addresses',
     icon: Mail,
-    price: '$10/month'
   },
   {
     id: 'contact-form',
     name: 'Contact Form',
-    description: 'Advanced contact form with validation',
+    description: 'Advanced contact form with validation (gratis)',
     icon: MessageCircle,
-    price: '$49'
   },
   {
     id: 'newsletter',
     name: 'Newsletter Signup',
     description: 'Email marketing integration',
     icon: Mail,
-    price: '$79'
   },
   {
     id: 'analytics',
     name: 'Analytics Integration',
     description: 'Track visitors and performance',
     icon: BarChart,
-    price: '$59'
-  }
-];
+  },
 
-const planSpecificExtras = {
-  booking: [
-    {
-      id: 'calendar-sync',
-      name: 'Calendar Sync',
-      description: 'Sync with Google/Outlook calendars',
-      icon: Calendar,
-      price: '$99'
-    },
-    {
-      id: 'payment-booking',
-      name: 'Payment Processing',
-      description: 'Accept payments for bookings',
-      icon: ShoppingCart,
-      price: '$149'
-    }
-  ],
-  eshop: [
-    {
-      id: 'inventory-management',
-      name: 'Inventory Management',
-      description: 'Track stock and products',
-      icon: BarChart,
-      price: '$199'
-    },
-    {
-      id: 'payment-gateway',
-      name: 'Premium Payment Gateway',
-      description: 'Multiple payment options',
-      icon: ShoppingCart,
-      price: '$249'
-    }
-  ]
-};
+  // New requested extras
+  {
+    id: 'booking',
+    name: 'Booking',
+    description: 'Integrated appointment & booking system',
+    icon: Calendar,
+  },
+  {
+    id: 'ecommerce',
+    name: 'E-commerce',
+    description: 'Online store functionality with cart & checkout',
+    icon: ShoppingCart,
+  },
+  {
+    id: 'ai-chatbot',
+    name: 'AI Chatbot',
+    description: 'Automated chatbot for customer support',
+    icon: Bot,
+  },
+  {
+    id: 'cms',
+    name: 'CMS Blogging',
+    description: 'Content management system for blogs',
+    icon: PenTool,
+  },
+  {
+    id: 'domain-email',
+    name: 'Domain Email',
+    description: 'Custom email with your domain name',
+    icon: Mail,
+  },
+  {
+    id: 'translation',
+    name: 'Translation',
+    description: 'Multi-language site support',
+    icon: Languages,
+  },
+  {
+    id: 'payment-processing',
+    name: 'Payment Processing',
+    description: 'Accept online payments securely',
+    icon: CreditCard,
+  },
+];
 
 export const ExtrasStep: React.FC<ExtrasStepProps> = ({ formData, updateFormData }) => {
   const handleExtraToggle = (extraId: string) => {
@@ -115,19 +121,7 @@ export const ExtrasStep: React.FC<ExtrasStepProps> = ({ formData, updateFormData
     updateFormData({ extras: updatedExtras });
   };
 
-  const getExtras = () => {
-    let extras = [...baseExtras];
-    
-    if (formData.plan === 'booking') {
-      extras = [...extras, ...planSpecificExtras.booking];
-    } else if (formData.plan === 'eshop') {
-      extras = [...extras, ...planSpecificExtras.eshop];
-    }
-    
-    return extras;
-  };
-
-  const extras = getExtras();
+  const extras = baseExtras;
 
   return (
     <div className="space-y-6">
@@ -164,10 +158,7 @@ export const ExtrasStep: React.FC<ExtrasStepProps> = ({ formData, updateFormData
                   </div>
                   
                   <div className="flex-1">
-                    <div className="flex items-center justify-between mb-1">
-                      <h4 className="font-semibold">{extra.name}</h4>
-                      <span className="text-sm font-medium text-primary">{extra.price}</span>
-                    </div>
+                    <h4 className="font-semibold">{extra.name}</h4>
                     <p className="text-muted-foreground text-sm">{extra.description}</p>
                   </div>
                 </div>
